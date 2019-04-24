@@ -1,5 +1,5 @@
 # hass_avea
-Avea Integration for Home Assistant
+[Avea](http://web.archive.org/web/20170930210431/https://www.elgato.com/avea) Integration for [Home Assistant](https://www.home-assistant.io/)
 
 ### Installing
 
@@ -15,4 +15,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* @k0rventen
+* [k0rventen](https://github.com/k0rventen/avea)
