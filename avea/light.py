@@ -7,8 +7,6 @@ import homeassistant.helpers.config_validation as cv
 import homeassistant.util.color as color_util
 
 
-REQUIREMENTS = ['avea==1.2.8']
-
 _LOGGER = logging.getLogger(__name__)
 
 SUPPORT_AVEA = (SUPPORT_BRIGHTNESS | SUPPORT_COLOR)
