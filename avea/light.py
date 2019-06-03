@@ -7,7 +7,7 @@ import homeassistant.helpers.config_validation as cv
 import homeassistant.util.color as color_util
 
 
-REQUIREMENTS = ['avea==1.2.7']
+REQUIREMENTS = ['avea==1.2.8']
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -18,10 +18,8 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Avea platform."""
     import avea
 
-    # Setup connection with devices/cloud
     nearbyBulbs = avea.discover_avea_bulbs()
 
-    # Add devices
     add_devices(AveaLight(bulb) for bulb in nearbyBulbs)
 
 class AveaLight(Light):
@@ -71,10 +69,12 @@ class AveaLight(Light):
             self._light.set_brightness(4095);
         else:
           if ATTR_BRIGHTNESS in kwargs:
-              self._light.set_brightness(round(4095 * (kwargs.get(ATTR_BRIGHTNESS, 4095) / 100)));
+              bright_percent = round((kwargs.get(ATTR_BRIGHTNESS, 255)/255)*100) 
+              self._light.set_brightness(round(4095 * (bright_percent / 100)));
           if ATTR_HS_COLOR in kwargs:
+              _LOGGER.error("ATTR_HS_COLOR!")
               rgb = color_util.color_hs_to_RGB(*kwargs[ATTR_HS_COLOR])
-              self._light.set_color(100,round(255 * (rgb[0] / 100)), round(255 * (rgb[1] / 100)), round(255 * (rgb[2] / 100)));
+              self._light.set_rgb(round(255 * (rgb[0] / 100)), round(255 * (rgb[1] / 100)), round(255 * (rgb[2] / 100)));
 
 
     def turn_off(self, **kwargs):
@@ -90,4 +90,5 @@ class AveaLight(Light):
           self._state = False
         else:
           self._state = True
-        self._brightness = round(255 * (self._light.get_brightness() / 100))
+        bright_percent = round((self._light.get_brightness()/4095)*100)
+        self._brightness = round(255 * (bright_percent / 100))
